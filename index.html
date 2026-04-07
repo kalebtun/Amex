@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amex Platinum × Siam Seaplane — UI Review</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f4f0;
+      color: #1a1a1a;
+      padding: 48px 24px;
+    }
+
+    .page-wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    /* ── Review header ── */
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .review-header h1 { font-size: 15px; font-weight: 500; color: #888; }
+    .review-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #016FD0;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Section labels ── */
+    .section-wrap { display: flex; flex-direction: column; gap: 12px; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e0deda;
+    }
+    .section-context {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: -4px;
+      margin-bottom: 4px;
+    }
+
+    /* ── Shared card base ── */
+    .card {
+      background: #fff;
+      border: 1px solid #e8e6e0;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    /* ── AMEX brand ── */
+    .amex-blue { color: #016FD0; }
+    .logo-box {
+      background: #016FD0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-box span {
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+
+    /* ════════════════════════════════════════
+       CONCEPT 1 — Homepage trust badge
+    ════════════════════════════════════════ */
+    .homepage-sim {
+      background: #1c1c1e;
+      border-radius: 14px;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .sim-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sim-logo {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+    .sim-nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .sim-nav-links span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+    .sim-hero-text {
+      padding: 24px 0 8px;
+    }
+    .sim-hero-text p {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+    .sim-hero-text h2 {
+      font-size: 28px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .homepage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 40px;
+      padding: 7px 16px 7px 7px;
+      width: fit-content;
+    }
+    .badge-logo-sm {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #016FD0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .badge-logo-sm span {
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      font-size: 6.5px;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+    .badge-text {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+    }
+    .badge-text strong {
+      color: #fff;
+      font-weight: 500;
+    }
+    .sim-cta {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .sim-btn-primary {
+      background: #fff;
+      color: #1c1c1e;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .sim-btn-secondary {
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ════════════════════════════════════════
+       CONCEPT 2 — Flight page benefit strip
+    ════════════════════════════════════════ */
+    .flight-page-sim {
+      background: #f9f8f5;
+      border: 1px solid #e8e6e0;
+      border-radius: 14px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .flight-sim-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .flight-sim-route { display: flex; flex-direction: column; gap: 4px; }
+    .flight-sim-route h3 { font-size: 20px; font-weight: 500; color: #1a1a1a; }
+    .flight-sim-route p { font-size: 13px; color: #888; }
+    .flight-sim-price { text-align: right; }
+    .flight-sim-price .price { font-size: 22px; font-weight: 500; color: #1a1a1a; }
+    .flight-sim-price .price-label { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+    .strip {
+      background: #fff;
+      border: 1px solid #e8e6e0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .strip-logo { width: 34px; height: 34px; font-size: 8.5px; }
+    .strip-body { flex: 1; min-width: 0; }
+    .strip-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #016FD0;
+      margin-bottom: 3px;
+    }
+    .strip-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .strip-benefits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .benefit-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #EBF4FD;
+      border: 1px solid #C2DCF5;
+      border-radius: 8px;
+      padding: 5px 10px;
+    }
+    .benefit-chip svg {
+      width: 13px;
+      height: 13px;
+      stroke: #185FA5;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .benefit-chip span {
+      font-size: 12px;
+      font-weight: 500;
+      color: #0C447C;
+    }
+    .benefit-chip em {
+      font-style: normal;
+      font-size: 11px;
+      color: #185FA5;
+      font-weight: 400;
+    }
+    .strip-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: #016FD0;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding-top: 3px;
+      cursor: pointer;
+    }
+    .strip-link:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════════════
+       CONCEPT 3 — Dedicated partner page
+    ════════════════════════════════════════ */
+    .partner-card { border-radius: 14px; overflow: hidden; border: 1px solid #e8e6e0; }
+
+    .partner-head {
+      background: #016FD0;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .partner-head-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 11px;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .partner-head-logo span {
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+    .partner-head-text h2 {
+      font-size: 17px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .partner-head-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+    }
+
+    .partner-body { background: #fff; padding: 28px 32px; }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .b-card {
+      background: #f9f8f5;
+      border: 1px solid #eeece8;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .b-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .b-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: #EBF4FD;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .b-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: #185FA5;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .b-num {
+      font-size: 28px;
+      font-weight: 500;
+      color: #016FD0;
+      line-height: 1;
+    }
+    .b-unit {
+      font-size: 14px;
+      color: #016FD0;
+      font-weight: 400;
+      margin-left: 1px;
+    }
+    .b-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+      line-height: 1.35;
+    }
+    .b-desc {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .redeem-band {
+      background: #EBF4FD;
+      border: 1px solid #C2DCF5;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .redeem-left { flex: 1; }
+    .redeem-left strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #042C53;
+      margin-bottom: 4px;
+    }
+    .redeem-left p {
+      font-size: 12px;
+      color: #185FA5;
+      line-height: 1.5;
+    }
+    .redeem-btn {
+      background: #016FD0;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .redeem-btn:hover { background: #0158a8; }
+
+    .terms-text {
+      font-size: 11px;
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    .page-divider {
+      border: none;
+      border-top: 1px dashed #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <div class="review-header">
+    <h1>Amex Platinum × Siam Seaplane — UI review</h1>
+    <span class="review-badge">Draft</span>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONCEPT 1 — Homepage trust badge
+  ══════════════════════════════════════ -->
+  <div class="section-wrap">
+    <div class="section-label">1 &mdash; Homepage trust badge</div>
+    <p class="section-context">Sits in the hero section of the homepage, visible to all visitors immediately on arrival.</p>
+    <div class="homepage-sim">
+      <div class="sim-nav">
+        <div class="sim-logo">Siam Seaplane</div>
+        <div class="sim-nav-links">
+          <span>Flights</span>
+          <span>Experiences</span>
+          <span>About</span>
+        </div>
+      </div>
+      <div class="sim-hero-text">
+        <p>Private charter flights · Indonesia</p>
+        <h2>Fly above the islands.<br>Land where roads don't go.</h2>
+        <div class="homepage-badge">
+          <div class="badge-logo-sm"><span>AMEX</span></div>
+          <div class="badge-text">
+            <strong>Amex Platinum</strong> partner &mdash; 15% off charters &amp; free Alphard transfer
+          </div>
+        </div>
+        <div class="sim-cta" style="margin-top: 24px;">
+          <button class="sim-btn-primary">Explore flights</button>
+          <button class="sim-btn-secondary">Amex benefits →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="page-divider" />
+
+  <!-- ══════════════════════════════════════
+       CONCEPT 2 — Flight page benefit strip
+  ══════════════════════════════════════ -->
+  <div class="section-wrap">
+    <div class="section-label">2 &mdash; Flight page benefit strip</div>
+    <p class="section-context">Appears on every individual flight page, near the pricing widget where booking decisions are made.</p>
+    <div class="flight-page-sim">
+      <div class="flight-sim-top">
+        <div class="flight-sim-route">
+          <h3>Ambon → Banda Islands</h3>
+          <p>35 min · Private jet · Up to 5 guests</p>
+        </div>
+        <div class="flight-sim-price">
+          <div class="price">$6,500</div>
+          <div class="price-label">charter · one way</div>
+        </div>
+      </div>
+
+      <div class="strip">
+        <div class="logo-box strip-logo"><span>AMEX</span></div>
+        <div class="strip-body">
+          <div class="strip-eyebrow">American Express Platinum</div>
+          <div class="strip-title">Cardholders save 15% on this charter + complimentary Toyota Alphard transfer</div>
+          <div class="strip-benefits">
+            <div class="benefit-chip">
+              <svg viewBox="0 0 14 14"><path d="M7 1l1.5 3.2 3.5.5-2.5 2.4.6 3.4L7 8.9l-3.1 1.6.6-3.4L2 4.7l3.5-.5z"/></svg>
+              <span>15% off <em>· one-way charter</em></span>
+            </div>
+            <div class="benefit-chip">
+              <svg viewBox="0 0 14 14"><rect x="1" y="5" width="12" height="8" rx="2"/><path d="M4 5V3.5a3 3 0 0 1 6 0V5"/></svg>
+              <span>Toyota Alphard <em>· airport transfer</em></span>
+            </div>
+          </div>
+        </div>
+        <a class="strip-link">How to redeem →</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="page-divider" />
+
+  <!-- ══════════════════════════════════════
+       CONCEPT 3 — Dedicated partner page
+  ══════════════════════════════════════ -->
+  <div class="section-wrap">
+    <div class="section-label">3 &mdash; Dedicated partner page</div>
+    <p class="section-context">A standalone /amex-platinum page. Amex can link to this from their member portal and cardholder emails.</p>
+
+    <div class="partner-card">
+      <div class="partner-head">
+        <div class="partner-head-logo"><span>AMEX</span></div>
+        <div class="partner-head-text">
+          <h2>American Express Platinum benefits</h2>
+          <p>Exclusive privileges for Platinum cardholders booking with Siam Seaplane</p>
+        </div>
+      </div>
+      <div class="partner-body">
+
+        <div class="benefits-grid">
+          <div class="b-card">
+            <div class="b-card-header">
+              <div class="b-num">15<span class="b-unit">%</span></div>
+            </div>
+            <div class="b-label">Savings on charter flight</div>
+            <div class="b-desc" style="margin-top: 6px;">Applied to all one-way charter bookings made through Platinum Travel Service. No promo code needed — benefit applied automatically.</div>
+          </div>
+          <div class="b-card">
+            <div class="b-card-header">
+              <div class="b-icon">
+                <svg viewBox="0 0 16 16"><rect x="1" y="7" width="14" height="8" rx="2"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/><circle cx="4.5" cy="13" r="1.5"/><circle cx="11.5" cy="13" r="1.5"/></svg>
+              </div>
+              <div class="b-label">Complimentary Toyota Alphard transfer</div>
+            </div>
+            <div class="b-desc">A luxury Toyota Alphard is provided for your airport arrival or departure on all charter bookings. Available at departure and arrival airports.</div>
+          </div>
+        </div>
+
+        <div class="redeem-band">
+          <div class="redeem-left">
+            <strong>How to redeem your benefits</strong>
+            <p>Reserve through Amex Platinum Travel Service at <strong style="color:#042C53;">0 2091 2828</strong> (press 2 after language selection) and mention your Platinum card at the time of booking.</p>
+          </div>
+          <button class="redeem-btn">Book now</button>
+        </div>
+
+        <p class="terms-text">
+          One-way charter flights only. Subject to availability. Benefits applied at time of booking through Platinum Travel Service. 
+          Cannot be combined with other promotions or discounted fares. Siam Seaplane reserves the right to amend or withdraw benefits at any time. 
+          American Express Platinum cardholders only. Valid card must be presented at time of booking.
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
